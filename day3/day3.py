@@ -27,9 +27,9 @@ def part1(transposed_measurements):
     gamma = bit_array_to_int(gamma_bit_array)
     epsilon = bit_array_to_int(epsilon_bit_array)
     power_consumption = gamma * epsilon
-    print("Gamma rate: {}".format(gamma))
-    print("Epsilon rate: {}".format(epsilon))
-    print("Power consumption: {}".format(power_consumption))
+    print(f"Gamma rate: {gamma}")
+    print(f"Epsilon rate: {epsilon}")
+    print(f"Power consumption: {power_consumption}")
     print()
 
 
@@ -53,9 +53,9 @@ def part2(transposed_measurements):
     oxygen_rating = get_rating(transposed_measurements, lambda mean: 0 if mean >= 0.5 else 1)
     scrubber_rating = get_rating(transposed_measurements, lambda mean: 1 if mean >= 0.5 else 0)
     life_support_rating = oxygen_rating * scrubber_rating
-    print("Oxygen generator rating: {}".format(oxygen_rating))
-    print("CO2 scrubber rating: {}".format(scrubber_rating))
-    print("Life support rating: {}".format(life_support_rating))
+    print(f"Oxygen generator rating: {oxygen_rating}")
+    print(f"CO2 scrubber rating: {scrubber_rating}")
+    print(f"Life support rating: {life_support_rating}")
     print()
 
 

@@ -20,7 +20,7 @@ def get_number_of_increments(measurements):
 def part1(measurements):
     print("Running part 1...")
     number_of_increments = get_number_of_increments(measurements)
-    print("Result is: {}".format(number_of_increments))
+    print(f"Result is: {number_of_increments}")
     print()
 
 
@@ -32,7 +32,7 @@ def part2(measurements):
     print("Running part 2...")
     concatenated_measurements = concatenate_measurements_in_triplets(measurements)
     number_of_increments = get_number_of_increments(concatenated_measurements)
-    print("Result is: {}".format(number_of_increments))
+    print(f"Result is: {number_of_increments}")
     print()
 
 

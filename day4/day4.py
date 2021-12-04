@@ -23,7 +23,7 @@ def part1(chosen_numbers, bingo_cards):
     print("Running part 1...")
     victor, final_number = win_at_bingo(chosen_numbers, bingo_cards)
     victor_value = get_bingo_card_value(victor) * final_number
-    print("Victor value: {}".format(victor_value))
+    print(f"Victor value: {victor_value}")
     print()
 
 
@@ -31,7 +31,7 @@ def part2(chosen_numbers, bingo_cards):
     print("Running part 2...")
     last_victor, last_number = lose_at_bingo(chosen_numbers, bingo_cards)
     last_victor_value = get_bingo_card_value(last_victor) * last_number
-    print("'Victor' value: {}".format(last_victor_value))
+    print(f"'Victor' value: {last_victor_value}")
     print()
 
 

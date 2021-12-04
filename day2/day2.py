@@ -28,9 +28,9 @@ def unify_depth_commands(command, value):
 
 def print_position(horizontal_position, vertical_position):
     final_position = horizontal_position * vertical_position
-    print("Horizontal position: {}".format(horizontal_position))
-    print("Vertical position: {}".format(vertical_position))
-    print("Final position: {}".format(final_position))
+    print(f"Horizontal position: {horizontal_position}")
+    print(f"Vertical position: {vertical_position}")
+    print(f"Final position: {final_position}")
 
 
 def part1(commands):
