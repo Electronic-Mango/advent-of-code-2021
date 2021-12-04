@@ -4,6 +4,7 @@ DEFAULT_INPUT_FILE_NAME = "input"
 FORWARD_COMMAND = "forward"
 DOWN_COMMAND = "down"
 UP_COMMAND = "up"
+DEPTH_COMMAND = "depth"
 
 
 def get_input_file_name():
@@ -14,7 +15,15 @@ def load_commands():
     input_file_name = get_input_file_name()
     with open(input_file_name) as input_file:
         commands = [line.strip().split(" ") for line in input_file.readlines()]
-    return [[command, int(value)] for [command, value] in commands]
+    commands = [(command, int(value)) for command, value in commands]
+    return [unify_depth_commands(command, value) for command, value in commands]
+
+
+def unify_depth_commands(command, value):
+    if command not in [DOWN_COMMAND, UP_COMMAND]:
+        return command, value
+    unified_value = value if command == DOWN_COMMAND else -value
+    return DEPTH_COMMAND, unified_value
 
 
 def print_position(horizontal_position, vertical_position):
@@ -31,10 +40,8 @@ def part1(commands):
     for [command, value] in commands:
         if command == FORWARD_COMMAND:
             horizontal_position += value
-        elif command == DOWN_COMMAND:
+        elif command == DEPTH_COMMAND:
             vertical_position += value
-        elif command == UP_COMMAND:
-            vertical_position -= value
     print_position(horizontal_position, vertical_position)
     print()
 
@@ -48,10 +55,8 @@ def part2(commands):
         if command == FORWARD_COMMAND:
             horizontal_position += value
             vertical_position += aim * value
-        elif command == DOWN_COMMAND:
+        elif command == DEPTH_COMMAND:
             aim += value
-        elif command == UP_COMMAND:
-            aim -= value
     print_position(horizontal_position, vertical_position)
     print()
 
