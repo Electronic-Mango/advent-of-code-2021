@@ -1,4 +1,4 @@
-from numpy import all, array, ndarray
+from numpy import all, array
 from sys import argv
 
 DEFAULT_INPUT_FILE_NAME = "input"
