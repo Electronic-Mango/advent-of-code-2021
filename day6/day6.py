@@ -16,13 +16,15 @@ def get_input_file_name():
     return argv[1] if len(argv) == 2 else DEFAULT_INPUT_FILE_NAME
 
 
-def simulate_fish(fish_list, number_of_days):
+def simulate_fish(fish_list, number_of_days, part_number):
+    print(f"Running part {part_number}...")
     fish_stages = generate_fish_stages_deque(fish_list)
     for _ in range(number_of_days):
         fish_stages.rotate(-1)
         fish_stages[REPRODUCTION_INTERVAL] += fish_stages[NEW_FISH_REPRODUCTION_INTERVAL]
     total_fish_count = sum(fish_stages)
     print(f"Total number of fish after {number_of_days} days: {total_fish_count}")
+    print()
 
 
 def generate_fish_stages_deque(fish_list):
@@ -32,5 +34,5 @@ def generate_fish_stages_deque(fish_list):
 
 
 fish_stages_list = load_fish_stages()
-simulate_fish(fish_stages_list, number_of_days=80)
-simulate_fish(fish_stages_list, number_of_days=256)
+simulate_fish(fish_stages_list, number_of_days=80, part_number=1)
+simulate_fish(fish_stages_list, number_of_days=256, part_number=2)

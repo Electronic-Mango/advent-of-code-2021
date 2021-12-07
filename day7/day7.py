@@ -15,12 +15,13 @@ def get_input_file_name():
 
 
 def task_brute_force(crabs, fuel_consumption_function, part_number):
-    print(f"Running part {part_number}...")
+    print(f"Running part {part_number} by brute force...")
     fuel_costs_for_each_target = [
         sum([fuel_consumption_function(current, target) for current in crabs])
         for target in range(min(crabs), max(crabs))
     ]
     print(f"Lowest fuel consumption: {min(fuel_costs_for_each_target)}")
+    print()
 
 
 def fuel_consumption(crabs, target, target_rounding_function, fuel_consumption_function):
@@ -30,13 +31,14 @@ def fuel_consumption(crabs, target, target_rounding_function, fuel_consumption_f
 
 
 def task_smart(crabs, target_function, fuel_consumption_function, part_number):
-    print(f"Running part {part_number}...")
+    print(f"Running part {part_number} by 'smarter' approach...")
     target = target_function(crabs)
     target_lower, target_upper = floor(target), ceil(target)
     fuel_changes_lower = [fuel_consumption_function(value, target_upper) for value in crabs]
     fuel_changes_upper = [fuel_consumption_function(value, target_lower) for value in crabs]
     total_fuel_consumption = min(sum(fuel_changes_lower), sum(fuel_changes_upper))
     print(f"Lowest fuel consumption: {total_fuel_consumption}")
+    print()
 
 
 def linear_fuel_consumption(current, target):
