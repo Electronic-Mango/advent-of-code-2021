@@ -54,7 +54,8 @@ def fill_paper(dots):
     paper = full((size_x, size_y), " ")
     for dot in dots:
         paper[dot] = chr(0x2588)
-    paper = ["".join(line) for line in paper.T]
+    paper = [map(lambda dot : dot *2, line) for line in paper.T]
+    paper = ["".join(line) for line in paper]
     return linesep.join(paper)
 
 
