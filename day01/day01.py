@@ -14,7 +14,7 @@ def load_measurements():
 
 
 def get_number_of_increments(measurements):
-    return len([0 for previous, next in zip(measurements, measurements[1:]) if next > previous])
+    return sum(next > previous for previous, next in zip(measurements, measurements[1:]))
 
 
 def part1(measurements):
