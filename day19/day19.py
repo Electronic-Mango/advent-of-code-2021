@@ -1,37 +1,14 @@
 from collections import Counter, deque
-from itertools import product
+from itertools import permutations, product
 from os import linesep
 from sys import argv
 
 DEFAULT_INPUT_FILE_NAME = "input"
 EXPECTED_OVERLAPPING_BEACONS = 12
-TRANSFORMATIONS = [
-    lambda x, y, z: (x, y, z),
-    lambda x, y, z: (x, z, -y),
-    lambda x, y, z: (x, -y, -z),
-    lambda x, y, z: (x, -z, y),
-    lambda x, y, z: (-x, y, -z),
-    lambda x, y, z: (-x, z, y),
-    lambda x, y, z: (-x, -y, z),
-    lambda x, y, z: (-x, -z, -y),
-    lambda x, y, z: (y, x, -z),
-    lambda x, y, z: (y, z, x),
-    lambda x, y, z: (y, -x, z),
-    lambda x, y, z: (y, -z, -x),
-    lambda x, y, z: (-y, x, z),
-    lambda x, y, z: (-y, z, -x),
-    lambda x, y, z: (-y, -x, -z),
-    lambda x, y, z: (-y, -z, x),
-    lambda x, y, z: (z, x, y),
-    lambda x, y, z: (z, y, -x),
-    lambda x, y, z: (z, -x, -y),
-    lambda x, y, z: (z, -y, x),
-    lambda x, y, z: (-z, x, -y),
-    lambda x, y, z: (-z, y, x),
-    lambda x, y, z: (-z, -x, y),
-    lambda x, y, z: (-z, -y, -x),
-]
-# Surely, there's a better way of doing this...
+AXIS_PERMUTATION = list(permutations([0, 1, 2]))
+ROTATION_PRODUCT = list(product([1, -1], repeat=3))
+TRANSFORMATIONS = list(product(AXIS_PERMUTATION, ROTATION_PRODUCT))
+# Still not great - there're twice as many transformations as needed.
 
 
 def load_scanner_data():
@@ -68,21 +45,28 @@ def part1(known_beacons, unknown_beacons):
 
 
 def align(known_beacons, unknown_beacons):
-    for transformation in TRANSFORMATIONS:
-        beacons, vector, distance = transform(transformation, known_beacons, unknown_beacons)
+    transformed_beacons = [generate_transformations(beacon) for beacon in unknown_beacons]
+    for transformation in range(len(TRANSFORMATIONS)):
+        beacons = [beacon[transformation] for beacon in transformed_beacons]
+        distances = calculate_distances(known_beacons, beacons)
+        vector, distance = Counter(distances).most_common()[0]
         if distance >= EXPECTED_OVERLAPPING_BEACONS:
-            shifted_beacons = [shift_point(beacon, vector) for beacon in beacons]
-            return vector, shifted_beacons
+            return vector, [shift_point(beacon, vector) for beacon in beacons]
     return None, None
 
 
-def transform(transformation, known_beacons, unknown_beacons):
-    transformed_unknown_beacons = [transformation(*beacon) for beacon in unknown_beacons]
-    distances = [
-        distance_vector(unknown_beacon, known_beacon)
-        for known_beacon, unknown_beacon in product(known_beacons, transformed_unknown_beacons)
+def generate_transformations(beacon):
+    return [
+        tuple(beacon[axis] * rotation for axis, rotation in zip(*transformation))
+        for transformation in TRANSFORMATIONS
     ]
-    return transformed_unknown_beacons, *Counter(distances).most_common()[0]
+
+
+def calculate_distances(source_beacons, target_beacons):
+    return [
+        distance_vector(target_beacon, source_beacon)
+        for source_beacon, target_beacon in product(source_beacons, target_beacons)
+    ]
 
 
 def shift_point(point, vector):
