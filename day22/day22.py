@@ -5,7 +5,7 @@ from sys import argv
 
 DEFAULT_INPUT_FILE_NAME = "input"
 STATE_ON = "on"
-NUMBER_REGEX = f"-?\d+"
+NUMBER_REGEX = r"-?\d+"
 INITIALIZATION_RANGE_START = -50
 INITIALIZATION_RANGE_END = 50
 
@@ -36,8 +36,8 @@ def parse_coordinates(coordinates):
 def task(instructions):
     print("Running part 1 & 2...")
     all_cubes = defaultdict(int)
-    for state, new_cube in instructions:
-        handle_cube(state, new_cube, all_cubes)
+    for state, cube in instructions:
+        all_cubes = handle_cube(state, cube, all_cubes)
     limited_cubes = limit_all_cubes(all_cubes, INITIALIZATION_RANGE_START, INITIALIZATION_RANGE_END)
     cubes_on_reboot = cubes_on(all_cubes)
     cubes_on_initialization = cubes_on(limited_cubes)
@@ -53,6 +53,8 @@ def handle_cube(state, new_cube, all_cubes):
             all_cubes[intersection] -= occurences
     if state:
         all_cubes[new_cube] += 1
+    all_cubes = {cube: occurences for cube, occurences in all_cubes.items() if occurences}
+    return defaultdict(int, all_cubes)
 
 
 def intersect(cube_1, cube_2):
@@ -71,8 +73,7 @@ def intersecting_range(range_1, range_2):
 
 def limit_all_cubes(cubes, min_value, max_value):
     limited_cubes = {
-        limit_cube(cube, min_value, max_value): occurences
-        for cube, occurences in cubes.items()
+        limit_cube(cube, min_value, max_value): occurences for cube, occurences in cubes.items()
     }
     return {cube: occurences for cube, occurences in limited_cubes.items() if cube}
 
